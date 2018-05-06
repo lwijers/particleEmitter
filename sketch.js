@@ -23,15 +23,16 @@ class Particle {
     this.fadeSpeed = random(3, 5)
     this.growSpeed = random(0.1, 1)
     this.isDead = false;
+    this.color = [255, 255, 255, this.alpha];
   }
 
   reset(x, y) {
     this.isDead = false;
-    this.alpha = 0;
+    this.alpha = 255;
     this.x = x;
     this.y = y;
     this.size = 20;
-    this.color = (100, 0, 0 ,self.alpha)
+    this.color = [255, 0, 0, this.alpha];
   }
 
   update(){
@@ -46,7 +47,7 @@ class Particle {
   }
 
   show(){
-    fill(255, this.alpha);
+    fill(this.color);
     ellipse(this.x, this.y, this.size);
   }
 }
@@ -81,27 +82,28 @@ class Emitter {
   makeParticleRecyclable(index) {
     let particle =  this.particleList.splice(index,1)[0];
       particle.reset(this.x, this.y)
-      console.log(particle);
-      // this.reusabeParticles.push(particle)
-
-
-    // this.reusabeParticles.push(recycleable)
-    // console.log(this.reusabeParticles);
+      this.reusabeParticles.push(particle)
+      // console.log(particle);
   }
 
-  recycleParticle() {
-    this.particleList.push(this.reusabeParticles.splice(index,1)[0])
+
+  createParticle(){
+    console.log(this.particleList.length);
+    if (this.reusabeParticles.length > 0) {
+        this.particleList.push(this.reusabeParticles.splice(0,1)[0])
+    } else {this.particleList.push(new Particle(this.x, this.y, 20));
+
   }
+}
+
 
   update(){
     this.counter +=1;
     if (this.needForParticle()) {
-      if (this.particleAvailable()) {
-        this.recycleParticle();
-      } else {this.particleList.push(new Particle(this.x, this.y, 20));
+      this.createParticle()
     }
-  }
-  for (let i = 0; i < this.particleList.length; i++) {
+
+    for (let i = 0; i < this.particleList.length; i++) {
     // console.log(this.particleList);
     if (this.particleList[i].isDead) {
       this.makeParticleRecyclable(i);
