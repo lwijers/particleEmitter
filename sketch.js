@@ -7,6 +7,9 @@ function setup() {
 
 function draw() {
   background(0);
+
+  emitter.x = mouseX
+  emitter.y = mouseY
   emitter.update();
   emitter.show();
 }
@@ -16,14 +19,14 @@ class Particle {
   constructor(x, y, size) {
     this.x = x;
     this.y = y;
-    this.vx = random(-1,1);
+    this.vx = random(-2,2);
     this.vy = random(-5,-1);
     this.size = size;
     this.alpha = 255;
-    this.fadeSpeed = random(3, 5)
-    this.growSpeed = random(0.1, 1)
+    this.fadeSpeed = random(7, 8)
+    this.growSpeed = random(0.1, 2)
     this.isDead = false;
-    this.color = [255, 255, 255, this.alpha];
+    this.color = random(100, 255);
   }
 
   reset(x, y) {
@@ -32,8 +35,8 @@ class Particle {
     this.x = x;
     this.y = y;
     this.size = 20;
-    this.color = [255, 0, 0, this.alpha];
   }
+  // this.color = 170;
 
   update(){
     this.x += this.vx;
@@ -47,7 +50,7 @@ class Particle {
   }
 
   show(){
-    fill(this.color);
+    fill(this.color, this.alpha);
     ellipse(this.x, this.y, this.size);
   }
 }
@@ -62,7 +65,7 @@ class Emitter {
     this.particleList = [];
     this.reusabeParticles = [];
     this.counter = 0;
-    this.outPutSpeed = 3;
+    this.outPutSpeed = 1;
   }
 
   needForParticle(){
@@ -88,7 +91,7 @@ class Emitter {
 
 
   createParticle(){
-    console.log(this.particleList.length);
+    // console.log(this.particleList.length);
     if (this.reusabeParticles.length > 0) {
         this.particleList.push(this.reusabeParticles.splice(0,1)[0])
     } else {this.particleList.push(new Particle(this.x, this.y, 20));
