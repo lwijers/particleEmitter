@@ -33,9 +33,10 @@ class Emitter {
     this.x = x;
     this.y = y;
     this.particleList = [];
-    this.amount = amount;
+
     this.particleList.push(new Particle(this.x, this.y, 200))
   }
+
 
 
   update(){
